@@ -1,4 +1,4 @@
-#include "lista.c"
+#include "lista.h"
 
 int main(void) {
 
