@@ -7,7 +7,7 @@ main.o: main.c lista.h
 	gcc -o main.o main.c -c
 
 lista.o: lista.c lista.h
-	gcc -o lista.o lista.h -c
+	gcc -o lista.o lista.c -c
 
 clean:
 	del -rf *.o *.exe
