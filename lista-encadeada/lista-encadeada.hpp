@@ -1,5 +1,6 @@
 #ifndef LISTA_ENCADEADA_HPP
 #define LISTA_ENCADEADA_HPP
+#include <iostream>
 
 class No
 {

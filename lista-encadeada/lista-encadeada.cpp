@@ -1,5 +1,7 @@
 #include "lista-encadeada.hpp"
 
+using namespace std;
+
 // No metodos
 
 No::No(int dado) { this->dado = dado; }
@@ -66,8 +68,8 @@ bool Lista::posicaoValida(int posicao)
 
 int Lista::getElemento(int posicao)
 {
-    int dado, contador = 0;
-    No no = No();
+    int dado, contador = 1;
+    No *no = getCabeca();
 
     // Verifica se a posicao eh valida
     if (!posicaoValida(posicao))
@@ -75,20 +77,19 @@ int Lista::getElemento(int posicao)
         return -1;
     }
 
-    while (contador != posicao - 1)
+    while (contador < posicao)
     {
-        no = *no.getProximo();
+        no = no->getProximo();
         contador++;
     }
 
-    return no.getDado();
+    return no->getDado();
 }
 
 bool Lista::setElemento(int posicao, int novoDado)
 {
-
-    int dado = getElemento(posicao), contador = 0;
-    No no = No();
+    int contador = 1, dado = getElemento(posicao);
+    No *no = getCabeca();
 
     // Verifica se a posicao eh valida
     if (!posicaoValida(posicao))
@@ -96,44 +97,44 @@ bool Lista::setElemento(int posicao, int novoDado)
         return false;
     }
 
-    while (contador != posicao - 1)
+    while (contador < posicao)
     {
-        no = *no.getProximo();
+        no = no->getProximo();
         contador++;
     }
 
-    no.setDado(dado);
+    no->setDado(dado);
     return true;
 }
 
 bool Lista::insereElemento(int posicao, int dado)
 {
     // Insere no inicio caso a lista esteja vazia
-    if (vazia())
+    if (vazia() && posicao == 1)
     {
-        insereElementoInicio(dado);
-        return true;
+        return insereElementoInicio(dado);
+        ;
 
         // Insere no fim caso a lista nao esteja vazia e a posicao seja maior ou igual ao tamanho da lista
     }
     else if (!vazia() && posicao >= tamanho)
     {
-        insereElementoFim(dado);
-        return true;
+        return insereElementoFim(dado);
+        ;
     }
 
     // Insere no meio da lista
     int contador = 0;
-    No no, novoNo;
+    No *noAnterior, *novoNo = &No(dado);
 
     while (contador < posicao)
     {
-        no = *no.getProximo();
+        noAnterior = noAnterior->getProximo();
         contador++;
     }
 
-    novoNo.setProximo(no.getProximo());
-    no.setProximo(&novoNo);
+    novoNo->setProximo(noAnterior->getProximo());
+    noAnterior->setProximo(novoNo);
     incrementaTamanho();
 
     return true;
@@ -141,11 +142,10 @@ bool Lista::insereElemento(int posicao, int dado)
 
 bool Lista::insereElementoInicio(int dado)
 {
-    No no;
+    No *no = &No(dado);
 
-    no.setDado(dado);
-    no.setProximo(getCabeca());
-    setCabeca(&no);
+    no->setProximo(getCabeca());
+    setCabeca(no);
     incrementaTamanho();
 
     return true;
@@ -153,15 +153,15 @@ bool Lista::insereElementoInicio(int dado)
 
 bool Lista::insereElementoFim(int dado)
 {
-    No no, ultimo;
-    no.setDado(dado);
+    No *noNovo = &No(dado), *ultimo;
+    ultimo = getCabeca();
 
-    while (ultimo.getProximo() != NULL)
+    while (ultimo->getProximo() != nullptr)
     {
-        ultimo = *ultimo.getProximo();
+        ultimo = ultimo->getProximo();
     }
 
-    ultimo.setProximo(&no);
+    ultimo->setProximo(noNovo);
     incrementaTamanho();
 
     return true;
@@ -170,51 +170,55 @@ bool Lista::insereElementoFim(int dado)
 int Lista::retiraElemento(int posicao)
 {
     int dado, contador = 1;
-    No noRemover = *getCabeca();
+    No *noRemover = getCabeca();
 
     if (!posicaoValida(posicao))
     {
         return -1;
     }
+    
+    // Retirar a cabeca da lista
     else if (posicao == 1)
-    { // Retirar a cabeca da lista
-        dado = noRemover.getDado();
-        setCabeca(noRemover.getProximo());
+    {
+        dado = noRemover->getDado();
+        setCabeca(noRemover->getProximo());
         decrementaTamanho();
 
         return dado;
     }
+
+    // Se nao for remover a cabeca
     else
     {
-
-        while (contador != posicao - 1)
+        while (contador < posicao)
         {
-            noRemover = *noRemover.getProximo();
+            noRemover = noRemover->getProximo();
         }
 
-        dado = noRemover.getProximo()->getDado();
-        noRemover = *noRemover.getProximo();
-        // delete(&noRemover);
+        dado = noRemover->getDado();
+        delete(noRemover);
         decrementaTamanho();
+        
         return dado;
     }
 }
 
 void Lista::mostrarLista()
 {
-    No no = *cabeca;
+    No *no = cabeca;
 
     // Print da lista personalizado
     cout << "{";
 
     for (int i = 1; i <= tamanho; i++)
     {
-        cout << "[ %d ]-> " << no.getDado();
-
         if (i == tamanho)
         {
-            cout << "}" << endl;
+            cout << "[ %d ]->+}" << no->getDado() << endl;
         }
-        no = *no.getProximo();
+
+        cout << "[ %d ]-> " << no->getDado();
+
+        no = no->getProximo();
     }
 }

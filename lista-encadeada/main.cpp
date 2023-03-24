@@ -1,4 +1,3 @@
-#include <iostream>
 #include "lista-encadeada.hpp"
 
 using namespace std;
