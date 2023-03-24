@@ -33,23 +33,13 @@ void Lista::setCabeca(No *novoNo)
 
     if (vazia())
     {
-        incrementaTamanho();
+        tamanho++;
     }
 }
 
 int Lista::getTamanho()
 {
     return tamanho;
-}
-
-void Lista::incrementaTamanho()
-{
-    tamanho++;
-}
-
-void Lista::decrementaTamanho()
-{
-    tamanho--;
 }
 
 bool Lista::vazia()
@@ -75,7 +65,7 @@ bool Lista::posicaoValida(int posicao)
 int Lista::getElemento(int posicao)
 {
     int contador = 1;
-    No *no = getCabeca();
+    No *no = cabeca;
 
     // Verifica se a posicao eh valida
     if (!posicaoValida(posicao))
@@ -95,7 +85,7 @@ int Lista::getElemento(int posicao)
 bool Lista::setElemento(int posicao, int novoDado)
 {
     int contador = 1, dado = getElemento(posicao);
-    No *no = getCabeca();
+    No *no = cabeca;
 
     // Verifica se a posicao eh valida
     if (!posicaoValida(posicao))
@@ -115,25 +105,23 @@ bool Lista::setElemento(int posicao, int novoDado)
 
 bool Lista::insereElemento(int posicao, int dado)
 {
-    // Insere no inicio caso a lista esteja vazia
-    if (vazia() && posicao == 1)
+    // Insere no inicio da lista
+    if (posicao == 1)
     {
         return insereElementoInicio(dado);
-        ;
-
-        // Insere no fim caso a lista nao esteja vazia e a posicao seja maior ou igual ao tamanho da lista
     }
-    else if (!vazia() && posicao >= tamanho)
+
+    // Insere no fim caso a lista nao esteja vazia e a posicao seja maior ou igual ao tamanho da lista
+    else if (!vazia() && posicao+1 >= tamanho)
     {
         return insereElementoFim(dado);
-        ;
     }
 
     // Insere no meio da lista
-    int contador = 0;
-    No *noAnterior, *novoNo = new No(dado);
+    int contador = 1;
+    No *noAnterior = cabeca, *novoNo = new No(dado);
 
-    while (contador < posicao)
+    while (contador < posicao-1)
     {
         noAnterior = noAnterior->getProximo();
         contador++;
@@ -141,18 +129,18 @@ bool Lista::insereElemento(int posicao, int dado)
 
     novoNo->setProximo(noAnterior->getProximo());
     noAnterior->setProximo(novoNo);
-    incrementaTamanho();
+    tamanho++;
 
     return true;
 }
 
 bool Lista::insereElementoInicio(int dado)
 {
-    No *no = new No(dado);
+    No *novoNo = new No(dado);
 
-    no->setProximo(getCabeca());
-    setCabeca(no);
-    incrementaTamanho();
+    novoNo->setProximo(cabeca);
+    cabeca = novoNo;
+    tamanho++;
 
     return true;
 }
@@ -160,7 +148,7 @@ bool Lista::insereElementoInicio(int dado)
 bool Lista::insereElementoFim(int dado)
 {
     No *noNovo = new No(dado), *ultimo;
-    ultimo = getCabeca();
+    ultimo = cabeca;
 
     while (ultimo->getProximo() != nullptr)
     {
@@ -168,7 +156,7 @@ bool Lista::insereElementoFim(int dado)
     }
 
     ultimo->setProximo(noNovo);
-    incrementaTamanho();
+    tamanho++;
 
     return true;
 }
@@ -176,7 +164,7 @@ bool Lista::insereElementoFim(int dado)
 int Lista::retiraElemento(int posicao)
 {
     int dado, contador = 1;
-    No *noRemover = getCabeca();
+    No *noRemover = cabeca;
 
     if (!posicaoValida(posicao))
     {
@@ -188,7 +176,8 @@ int Lista::retiraElemento(int posicao)
     {
         dado = noRemover->getDado();
         setCabeca(noRemover->getProximo());
-        decrementaTamanho();
+        tamanho--
+    ;;
 
         return dado;
     }
@@ -203,7 +192,8 @@ int Lista::retiraElemento(int posicao)
 
         dado = noRemover->getDado();
         delete (noRemover);
-        decrementaTamanho();
+        tamanho--
+    ;;
 
         return dado;
     }
@@ -212,21 +202,26 @@ int Lista::retiraElemento(int posicao)
 // Print da lista personalizado
 void Lista::mostrarLista()
 {
-    No *no = cabeca;
-
     if (vazia())
     {
-        cout << "{ }\n";
+        cout << "{ }\n" << endl;
     }
     else
     {
+        No *no = cabeca;
 
         cout << "{";
-        for(int i = 0; i < getTamanho(); i++){
 
-            cout << no->getDado();
+        while(no != nullptr){
+            if(no->getProximo() == nullptr){
+                cout << "[" << no->getDado() << "]" ;
+                break;
+            }
+
+            cout << "[" << no->getDado() << "]-> " ;
 
             no = no->getProximo();
         }
+        cout << "}\n" << endl;
     }
 }

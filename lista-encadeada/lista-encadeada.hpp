@@ -29,8 +29,6 @@ public:
     No *getCabeca();
     void setCabeca(No *novoNo);
     int getTamanho();
-    void incrementaTamanho();
-    void decrementaTamanho();
     bool vazia();
     bool posicaoValida(int posicao);
     int getElemento(int posicao);
