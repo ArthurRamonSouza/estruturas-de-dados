@@ -1,3 +1,6 @@
+#ifndef LISTA_ENCADEADA_HPP
+#define LISTA_ENCADEADA_HPP
+
 class No
 {
 
@@ -12,3 +15,34 @@ public:
     int getDado();
     void setDado(int novoDado);
 };
+
+class Lista
+{
+
+private:
+    No *cabeca;
+    int tamanho;
+
+public:
+    Lista()
+    {
+        No *cabeca = nullptr;
+        int tamanho = 0;
+    }
+    No *getCabeca();
+    void setCabeca(No *novoNo);
+    int getTamanho();
+    void incrementaTamanho();
+    void decrementaTamanho();
+    bool vazia();
+    bool posicaoValida(int posicao);
+    int getElemento(int posicao);
+    bool setElemento(int posicao, int novoDado);
+    bool insereElemento(int posicao, int dado);
+    bool insereElementoInicio(int dado);
+    bool insereElementoFim(int dado);
+    int retiraElemento(int posicao);
+    void mostrarLista();
+};
+
+#endif
