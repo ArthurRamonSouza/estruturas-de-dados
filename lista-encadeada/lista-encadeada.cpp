@@ -182,7 +182,7 @@ int Lista::retiraElemento(int posicao)
     {
         return -1;
     }
-    
+
     // Retirar a cabeca da lista
     else if (posicao == 1)
     {
@@ -202,29 +202,31 @@ int Lista::retiraElemento(int posicao)
         }
 
         dado = noRemover->getDado();
-        delete(noRemover);
+        delete (noRemover);
         decrementaTamanho();
-        
+
         return dado;
     }
 }
 
+// Print da lista personalizado
 void Lista::mostrarLista()
 {
     No *no = cabeca;
 
-    // Print da lista personalizado
-    cout << "{";
-
-    for (int i = 1; i <= tamanho; i++)
+    if (vazia())
     {
-        if (i == tamanho)
-        {
-            cout << "[ %d ]->+}" << no->getDado() << endl;
+        cout << "{ }\n";
+    }
+    else
+    {
+
+        cout << "{";
+        for(int i = 0; i < getTamanho(); i++){
+
+            cout << no->getDado();
+
+            no = no->getProximo();
         }
-
-        cout << "[ %d ]-> " << no->getDado();
-
-        no = no->getProximo();
     }
 }
