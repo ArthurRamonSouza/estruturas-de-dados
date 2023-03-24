@@ -25,11 +25,7 @@ private:
     int tamanho;
 
 public:
-    Lista()
-    {
-        No *cabeca = nullptr;
-        int tamanho = 0;
-    }
+
     No *getCabeca();
     void setCabeca(No *novoNo);
     int getTamanho();

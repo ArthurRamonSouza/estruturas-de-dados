@@ -125,7 +125,7 @@ bool Lista::insereElemento(int posicao, int dado)
 
     // Insere no meio da lista
     int contador = 0;
-    No *noAnterior, *novoNo = &No(dado);
+    No *noAnterior, *novoNo = new No(dado);
 
     while (contador < posicao)
     {
@@ -142,7 +142,7 @@ bool Lista::insereElemento(int posicao, int dado)
 
 bool Lista::insereElementoInicio(int dado)
 {
-    No *no = &No(dado);
+    No *no = new No(dado);
 
     no->setProximo(getCabeca());
     setCabeca(no);
@@ -153,7 +153,7 @@ bool Lista::insereElementoInicio(int dado)
 
 bool Lista::insereElementoFim(int dado)
 {
-    No *noNovo = &No(dado), *ultimo;
+    No *noNovo = new No(dado), *ultimo;
     ultimo = getCabeca();
 
     while (ultimo->getProximo() != nullptr)
