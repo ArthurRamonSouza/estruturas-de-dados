@@ -1,21 +1,7 @@
 #ifndef LISTA_ENCADEADA_HPP
 #define LISTA_ENCADEADA_HPP
 #include <iostream>
-
-class No
-{
-
-private:
-    No *proximo;
-    int dado;
-
-public:
-    No(int dado);
-    No *getProximo();
-    void setProximo(No *no);
-    int getDado();
-    void setDado(int novoDado);
-};
+#include "No.hpp"
 
 class Lista
 {
