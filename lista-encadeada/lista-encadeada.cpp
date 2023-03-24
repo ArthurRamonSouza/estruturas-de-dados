@@ -16,6 +16,12 @@ void No::setDado(int novoDado) { dado = novoDado; }
 
 // Lista metodos
 
+Lista::Lista()
+{
+    cabeca = nullptr;
+    tamanho = 0;
+}
+
 No *Lista::getCabeca()
 {
     return cabeca;
@@ -68,7 +74,7 @@ bool Lista::posicaoValida(int posicao)
 
 int Lista::getElemento(int posicao)
 {
-    int dado, contador = 1;
+    int contador = 1;
     No *no = getCabeca();
 
     // Verifica se a posicao eh valida
