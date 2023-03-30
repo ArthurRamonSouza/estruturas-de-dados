@@ -19,8 +19,8 @@ main: $(OBJS)
 	rm -f $(OBJS)
 	./main
 
-lista-encadeada.o: Lista-encadeada.cpp Lista-encadeada.hpp
-	$(CC) $(CFLAGS) -c lista-encadeada.cpp
+lista-encadeada.o: ListaEncadeada.cpp ListaEncadeada.hpp
+	$(CC) $(CFLAGS) -c listaEncadeada.cpp
  
 no.o: No.cpp No.hpp
 	$(CC) $(CFLAGS) -c No.cpp

@@ -24,6 +24,7 @@ public:
     bool insereElementoFim(int dado);
     int retiraElemento(int posicao);
     void mostrarLista();
+    void ordenaLista();
 };
 
 #endif

@@ -1,4 +1,4 @@
-#include "Lista-encadeada.hpp"
+#include "ListaEncadeada.hpp"
 
 using namespace std;
 
@@ -210,4 +210,8 @@ void Lista::mostrarLista()
         }
         cout << "}\n" << endl;
     }
+}
+
+void Lista::ordenaLista(){
+    this->cabeca;    
 }
