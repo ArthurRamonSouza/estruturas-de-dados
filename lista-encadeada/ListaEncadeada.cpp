@@ -211,7 +211,3 @@ void Lista::mostrarLista()
         cout << "}\n" << endl;
     }
 }
-
-void Lista::ordenaLista(){
-    this->cabeca;    
-}
