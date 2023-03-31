@@ -21,5 +21,6 @@ int main(void) {
   printf("Remover Elemento 1: %d\n", removerElemento(&lista, 1));
   printf("Inserir Elemento: 7 na posicao 2 %d\n", inserirElemento(&lista, 2, 7));
   mostrarLista(&lista);
+  
   return 0;
 }
