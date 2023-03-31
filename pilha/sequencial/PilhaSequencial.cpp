@@ -36,7 +36,7 @@ bool PilhaSequencial::push(int dado)
         return false;
     }
 
-    dados[tamanho] = dado;
+    this->dados[tamanho] = dado;
     tamanho++;
     return true;
 }
@@ -60,7 +60,7 @@ int PilhaSequencial::verTopo()
         return -1;
     }
 
-    return dados[tamanho];
+    return this->dados[tamanho];
 
 }
 

@@ -1,7 +1,6 @@
 #ifndef PILHA_SEQUENCIAL_H
 #define PILHA_SEQUENCIAL_H
 
-#include <iostream>
 #define TAM_MAX 100
 
 class PilhaSequencial 

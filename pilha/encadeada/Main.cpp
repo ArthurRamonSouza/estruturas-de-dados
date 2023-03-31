@@ -1,17 +1,14 @@
-#include "PilhaSequencial.hpp"
-#include<iostream>
+#include "PilhaEncadeada.hpp"
+#include <iostream>
 
-// int main(int agrc, char *argv[])
-// arguments count, arguments values
-int main()
+int main(void)
 {
-
-    PilhaSequencial pilha;
+    PilhaEncadeada pilha;
 
     std::cout << "Pilha está vazia? (0 = False, 1 = true) " << pilha.vazia() << std::endl << std::endl;
 
     // Removendo topo da lista vazia
-     std::cout << "\nRetirando o elemento do topo: " << pilha.pop() << std::endl;
+     std::cout << "Retirando o elemento do topo: " << pilha.pop() << std::endl;
 
     // Adicionando elementos
     for(int i = 1; i <= 8; i++){
@@ -30,8 +27,6 @@ int main()
     
     // Ver o tamanho da pilha
     std::cout << "\nQual o tamanho da pilha: " << pilha.getTamanho() << std::endl;
-
-    std::cout << "\nPilha está cheia? (0 = false, 1 = true) " << pilha.cheia() << std::endl << std::endl;
 
     return 0;
 }
