@@ -1,0 +1,30 @@
+#include <fstream>
+#include <iostream>
+
+using namespace std;
+
+int main() {
+   
+   ofstream pcv5;
+   pcv5.open("pcv5.txt"); //pcv5.open("pcv5.txt", ios::app) -> nao substitui o conteudo do arquivo, ele escreve sem alterar o existente;
+
+   pcv5 << "5" << endl;
+   pcv5 << "0 10 0 1 2" << endl;
+   pcv5 << "10 0 3 1 4" << endl;
+   pcv5 << "0 3 0 5 8" << endl;
+   pcv5 << "1 1 5 0 7" << endl;
+   pcv5 << "2 4 8 7 0" << endl;
+
+   pcv5.close();
+
+    return 0;
+}
+
+Resultado
+
+5
+0 10 0 1 2
+10 0 3 1 4
+0 3 0 5 8
+1 1 5 0 7
+2 4 8 7 0

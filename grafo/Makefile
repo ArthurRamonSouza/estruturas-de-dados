@@ -7,23 +7,23 @@ CC = g++
 # compiler flags:
 #  -g     - this flag adds debugging information to the executable file
 #  -Wall  - this flag is used to turn on most compiler warnings
-CFLAGS  = -g -Wall
+CFLAGS = -g -Wall
 
-OBJS = Lista-encadeada.o No.o
+OBJS = Main.o
  
 all: main
 
 # The build target
 main: $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) Main.cpp -o main
+	$(CC) $(CFLAGS) Main.cpp -o main
 	rm -f $(OBJS)
 	./main
 
-lista-encadeada.o: ListaEncadeada.cpp ListaEncadeada.hpp
-	$(CC) $(CFLAGS) -c listaEncadeada.cpp
+# lista-encadeada.o: ListaEncadeada.cpp ListaEncadeada.hpp
+# 	$(CC) $(CFLAGS) -c listaEncadeada.cpp
  
-no.o: No.cpp No.hpp
-	$(CC) $(CFLAGS) -c No.cpp
+# no.o: No.cpp No.hpp
+# 	$(CC) $(CFLAGS) -c No.cpp
 
 clean:
 	rm -f $(OBJS)
