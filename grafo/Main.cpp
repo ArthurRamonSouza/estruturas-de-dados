@@ -16,10 +16,10 @@ Graph load_from(string fileName)
         {
             int peso;
             f >> peso;
-            g.matrizAdjacencia[l][c] = peso;
-            if (g.matrizAdjacencia[l][c] > 0)
+            g.M[l][c] = peso;
+            if (g.M[l][c] > 0)
             {
-                g.listaAdjacencia[l].push_back(c);
+                g.L[l].push_back(c);
             }
         }
     }
@@ -28,10 +28,10 @@ Graph load_from(string fileName)
 
 int main()
 {
-    Graph gr = load_from("instancias_grafo/pcv4.txt");
+    Graph gr = load_from("instancias_grafo/pcv10.txt");
 
     cout << "\nMatriz de Adjacencia " << endl;
-    for (vector<int> linha : gr.matrizAdjacencia)
+    for (vector<int> linha : gr.M)
     {
         for (int elem : linha)
         {
@@ -42,7 +42,7 @@ int main()
 
     cout << "\nLista de Adjacencia " << endl;
 
-    for (vector<int> linha : gr.listaAdjacencia)
+    for (vector<int> linha : gr.L)
     {
         for (int elem : linha)
         {
@@ -50,9 +50,11 @@ int main()
         }
         cout << endl;
     }
+    cout << endl;
 
-    gr.dfs();
-    gr.bfs(1);
+    cout << "Caminho percorrido pelo DFS: "; gr.dfs(3); cout << endl;
+    int distancia = gr.bfs(0, 3);
+    cout << "Distancia calculada pelo BFS entre os vertices é: " << distancia << " (valor -1 significa que não há caminhos)" << endl;
     cout << "Numero de Componentes Conexas: " << gr.num_componentes_conexas() << endl;
 
 

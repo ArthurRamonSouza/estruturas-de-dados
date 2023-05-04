@@ -1,6 +1,7 @@
 #include <iostream>
-#include <queue>
 #include <vector>
+#include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -11,22 +12,28 @@ const int PRETO = 2;
 class Graph
 {
 private:
-    int numVertices;
+    int n;
     vector<int> pai;
-    vector<int> distancias;
+    vector<int> d;
     vector<int> cor;
 
 public:
-    vector<vector<int>> matrizAdjacencia;
-    vector<vector<int>> listaAdjacencia;
+    vector<vector<int>> M;
+    vector<vector<int>> L;
     Graph(int n)
     {
-        this->numVertices = n;
-        this->matrizAdjacencia.resize(n, vector<int>(n, 0));
-        this->listaAdjacencia.resize(n);
-        this->pai.resize(n);
-        this->distancias.resize(n, -1);
-        this->cor.resize(n, BRANCO);
+        this->n = n;
+        this->M = vector<vector<int>>(n, vector<int>(n, 0));
+        this->L = vector<vector<int>>(n);
+        this->pai = vector<int>(n, -1);
+        this->d = vector<int>(n, -1);
+        this->cor = vector<int>(n, BRANCO);
+    }
+
+    void add_edge(int u, int v)
+    {
+        M[u][v] = 1;
+        L[u].push_back(v);
     }
 
     int num_componentes_conexas()
@@ -42,82 +49,68 @@ public:
         return n_comp;
     }
 
-    void bfs(int source)
+    int bfs(int origem, int destino)
     {
-        this->cor[source] = CINZA;
-        this->distancias[source] = 0;
-        pai[source] = -1;
-        queue<int> Q;
-        Q.push(source);
+        queue<int> fila;
+        vector<int> distancia(this->n, -1);
+        vector<int> cor(this->n, BRANCO);
 
-        while (!Q.empty())
+        fila.push(origem);
+        cor[origem] = CINZA;
+        distancia[origem] = 0;
+
+        while (!fila.empty())
         {
-            int u = Q.front();
-            Q.pop();
-            for (int v : this->listaAdjacencia[u])
+            int atual = fila.front();
+            fila.pop();
+
+            if (atual == destino)
+            {
+                return distancia[atual];
+            }
+
+            for (auto vizinho : this->L[atual])
+            {
+                if (cor[vizinho] == BRANCO)
+                {
+                    cor[vizinho] = CINZA;
+                    distancia[vizinho] = distancia[atual] + 1;
+                    fila.push(vizinho);
+                }
+            }
+
+            cor[atual] = PRETO;
+        }
+
+        return -1; // não há caminho entre os vértices
+    }
+
+    void dfs(int source)
+    {
+        stack<int> pilha;
+        pilha.push(source);
+
+        while (!pilha.empty())
+        {
+            int u = pilha.top();
+            pilha.pop();
+
+            if (cor[u] == PRETO)
+                continue;
+
+            cout << u << " "; // imprime o vértice visitado
+
+            cor[u] = PRETO;
+
+            for (auto v : L[u])
             {
                 if (cor[v] == BRANCO)
                 {
+                    pilha.push(v);
                     cor[v] = CINZA;
-                    distancias[v] = distancias[u] + 1;
                     pai[v] = u;
-                    Q.push(v);
                 }
             }
-            cor[u] = PRETO;
-        }
-        cout << "Distancias: ";
-        for (int dist : distancias)
-        {
-            cout << dist << " ";
-        }
-        cout << endl;
-
-        cout << "Pais (-1 significa que é o vertice atual): ";
-        for (int p : pai)
-        {
-            cout << p << " ";
-        }
-        cout << endl;
-
-        for (int i = 0; i < this->numVertices; i++)
-        {
-            this->cor[i] = BRANCO;
-        }
-    }
-
-    void dfs_visit(int u)
-    {
-        cor[u] = CINZA;
-
-        for (int v = 0; v < numVertices; v++)
-        {
-            if (matrizAdjacencia[u][v] != 0 && cor[v] == BRANCO)
-            {
-                pai[v] = u;
-                distancias[v] = distancias[u] + 1;
-                dfs_visit(v);
-            }
-        }
-
-        cor[u] = PRETO;
-    }
-
-    void dfs()
-    {
-        for (int u = 0; u < numVertices; u++)
-        {
-            if (cor[u] == BRANCO)
-            {
-                pai[u] = -1;
-                distancias[u] = 0;
-                dfs_visit(u);
-            }
-        }
-
-        for (int i = 0; i < this->numVertices; i++)
-        {
-            this->cor[i] = BRANCO;
         }
     }
 };
