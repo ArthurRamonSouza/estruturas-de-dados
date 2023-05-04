@@ -1,54 +1,60 @@
-#include <iostream>
 #include <fstream>
 #include <sstream>
-#include <vector>
 #include "Grafo.cpp"
 
-using namespace std;
-
-Grafo arquivoParaGrafo(string nomeArquivo)
+Graph load_from(string fileName)
 {
-    ifstream arquivo(nomeArquivo);
-    int tamanho_matriz;
-    Grafo *grafo;
+    ifstream f(fileName);
+    int n;
+    f >> n;
 
-    if (arquivo.is_open())
+    Graph g(n);
+
+    for (int l = 0; l < n; l++)
     {
-        arquivo >> tamanho_matriz;
-        int **novaMatriz = new int *[tamanho_matriz];
-        for (int i = 0; i < tamanho_matriz; i++)
+        for (int c = 0; c < n; c++)
         {
-            novaMatriz[i] = new int[tamanho_matriz];
-        }
-
-        grafo = new Grafo(tamanho_matriz);
-
-        for (int l = 0; l < tamanho_matriz; l++)
-        {
-            for (int c = 0; c < tamanho_matriz; c++)
+            int peso;
+            f >> peso;
+            g.matrizAdjacencia[l][c] = peso;
+            if (g.matrizAdjacencia[l][c] > 0)
             {
-                arquivo >> novaMatriz[l][c];
+                g.listaAdjacencia[l].push_back(c);
             }
         }
-        grafo->setMatrizAdjacencia(novaMatriz);
-        arquivo.close();
     }
-
-    return *grafo;
+    return g;
 }
 
 int main()
 {
-    string nomeArquivo = "instancias_grafo/pcv4.txt";
+    Graph gr = load_from("instancias_grafo/pcv4.txt");
 
-    Grafo grafo = arquivoParaGrafo(nomeArquivo);
+    cout << "\nMatriz de Adjacencia " << endl;
+    for (vector<int> linha : gr.matrizAdjacencia)
+    {
+        for (int elem : linha)
+        {
+            cout << elem << " ";
+        }
+        cout << endl;
+    }
 
-    grafo.imprimeMatrizAdjacencia();
-    cout << "\n" << grafo.getNumeroVertices() << endl;
+    cout << "\nLista de Adjacencia " << endl;
 
-    grafo.matrizParaListaAdjacencia();
-    //grafo.getListaAdjacencia();
-    grafo.imprimeListaAdjacencia();
+    for (vector<int> linha : gr.listaAdjacencia)
+    {
+        for (int elem : linha)
+        {
+            cout << elem << " ";
+        }
+        cout << endl;
+    }
+
+    gr.dfs();
+    gr.bfs(1);
+    cout << "Numero de Componentes Conexas: " << gr.num_componentes_conexas() << endl;
+
 
     return 0;
-};
+}

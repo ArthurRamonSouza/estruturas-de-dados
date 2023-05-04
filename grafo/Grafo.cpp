@@ -1,113 +1,123 @@
-#include "Grafo.hpp"
+#include <iostream>
+#include <queue>
+#include <vector>
 
-Grafo::Grafo(int numeroVertices)
+using namespace std;
+
+const int BRANCO = 0;
+const int CINZA = 1;
+const int PRETO = 2;
+
+class Graph
 {
-    this->numeroVertices = numeroVertices;
-    this->listaTamanhos = (int *)malloc(numeroVertices * sizeof(int));
-    this->matrizAdjacencia = (int **)malloc(numeroVertices * sizeof(int *));
-    for (int i = 0; i < numeroVertices; i++)
+private:
+    int numVertices;
+    vector<int> pai;
+    vector<int> distancias;
+    vector<int> cor;
+
+public:
+    vector<vector<int>> matrizAdjacencia;
+    vector<vector<int>> listaAdjacencia;
+    Graph(int n)
     {
-        this->matrizAdjacencia[i] = (int *)malloc(numeroVertices * sizeof(int));
+        this->numVertices = n;
+        this->matrizAdjacencia.resize(n, vector<int>(n, 0));
+        this->listaAdjacencia.resize(n);
+        this->pai.resize(n);
+        this->distancias.resize(n, -1);
+        this->cor.resize(n, BRANCO);
     }
-}
 
-int Grafo::getNumeroVertices()
-{
-    return this->numeroVertices;
-}
-
-void Grafo::setMatrizAdjacencia(int **matriz)
-{
-    this->matrizAdjacencia = matriz;
-}
-
-void Grafo::imprimeMatrizAdjacencia()
-{
-    for (int l = 0; l < this->numeroVertices; l++)
+    int num_componentes_conexas()
     {
-        for (int c = 0; c < this->numeroVertices; c++)
+        int n_comp = 0;
+        for (auto p : pai)
         {
-            if (c == this->numeroVertices - 1)
+            if (p == -1)
             {
-                cout << this->matrizAdjacencia[l][c] << endl;
-            }
-            else
-            {
-                cout << this->matrizAdjacencia[l][c] << " " << ends;
+                n_comp += 1;
             }
         }
+        return n_comp;
     }
-}
 
-void Grafo::matrizParaListaAdjacencia()
-{
-    // Criando a lista de adjacencias a partir da lista de tamnhos
-    this->listaAdjacencia = (int **)malloc(numeroVertices * sizeof(int *));
-
-    // Contando numero de elementos na matriz diferentes de 0
-    for (int l = 0; l < this->numeroVertices; l++)
+    void bfs(int source)
     {
-        this->listaTamanhos[l] = 0;
-        for (int c = 0; c < this->numeroVertices; c++)
+        this->cor[source] = CINZA;
+        this->distancias[source] = 0;
+        pai[source] = -1;
+        queue<int> Q;
+        Q.push(source);
+
+        while (!Q.empty())
         {
-            if (this->matrizAdjacencia[l][c] != 0)
+            int u = Q.front();
+            Q.pop();
+            for (int v : this->listaAdjacencia[u])
             {
-                this->listaTamanhos[l]++;
+                if (cor[v] == BRANCO)
+                {
+                    cor[v] = CINZA;
+                    distancias[v] = distancias[u] + 1;
+                    pai[v] = u;
+                    Q.push(v);
+                }
             }
+            cor[u] = PRETO;
         }
-        this->listaAdjacencia[l] = (int *)malloc(this->listaTamanhos[l] * sizeof(int));
-    }
-
-    // Mapeando elementos diferentes de 0 da matriz para a lista
-    for (int l = 0; l < this->numeroVertices; l++)
-    {
-        int contador = 0;
-        for (int c = 0; c < this->numeroVertices; c++)
+        cout << "Distancias: ";
+        for (int dist : distancias)
         {
-            if (this->matrizAdjacencia[l][c] != 0)
-            {
-                this->listaAdjacencia[l][contador] = this->matrizAdjacencia[l][c];
-                contador++;
-            }
-            
-        }
-    }
-}
-
-int **Grafo::getListaAdjacencia() { return this->listaAdjacencia; }
-
-void Grafo::imprimeListaAdjacencia()
-{
-    for (int l = 0; l < this->numeroVertices; l++)
-    {
-        cout << l << " ->";
-        for (int c = 0; c < this->listaTamanhos[l]; c++)
-        {
-            if (c == this->numeroVertices - 1)
-            {
-                cout << " " << this->listaAdjacencia[l][c];
-            }
-            else
-            {
-                cout << " " << this->listaAdjacencia[l][c] << " ";
-            }
+            cout << dist << " ";
         }
         cout << endl;
+
+        cout << "Pais (-1 significa que é o vertice atual): ";
+        for (int p : pai)
+        {
+            cout << p << " ";
+        }
+        cout << endl;
+
+        for (int i = 0; i < this->numVertices; i++)
+        {
+            this->cor[i] = BRANCO;
+        }
     }
-}
 
-int Grafo::numeroVeticesConexos()
-{
-    int quantidadeVerticesConexos = 0;
-    return quantidadeVerticesConexos;
-}
+    void dfs_visit(int u)
+    {
+        cor[u] = CINZA;
 
-void Grafo::bfs()
-{
-    return;
-}
+        for (int v = 0; v < numVertices; v++)
+        {
+            if (matrizAdjacencia[u][v] != 0 && cor[v] == BRANCO)
+            {
+                pai[v] = u;
+                distancias[v] = distancias[u] + 1;
+                dfs_visit(v);
+            }
+        }
 
-void Grafo::dfs()
-{
-    return;
-}
+        cor[u] = PRETO;
+    }
+
+    void dfs()
+    {
+        for (int u = 0; u < numVertices; u++)
+        {
+            if (cor[u] == BRANCO)
+            {
+                pai[u] = -1;
+                distancias[u] = 0;
+                dfs_visit(u);
+            }
+        }
+
+        for (int i = 0; i < this->numVertices; i++)
+        {
+            this->cor[i] = BRANCO;
+        }
+    }
+};
