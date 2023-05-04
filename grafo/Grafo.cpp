@@ -3,8 +3,11 @@
 Grafo::Grafo(int numeroVertices)
 {
     this->numeroVertices = numeroVertices;
-    int matriz[numeroVertices][numeroVertices];
-    this->matrizAdjacencia = *matriz;
+    this->matrizAdjacencia = (int **)malloc(numeroVertices * sizeof(int *));
+    for (int i = 0; i < numeroVertices; i++)
+    {
+        this->matrizAdjacencia[i] = (int *)malloc(numeroVertices * sizeof(int));
+    }
 }
 
 int Grafo::getNumeroVertices()
@@ -12,31 +15,65 @@ int Grafo::getNumeroVertices()
     return this->numeroVertices;
 }
 
-void Grafo::setMatrizAdjacencia(int *matriz)
+void Grafo::setMatrizAdjacencia(int **matriz)
 {
     this->matrizAdjacencia = matriz;
 }
 
 void Grafo::imprimeMatrizAdjacencia()
 {
-    int matriz = *this->matrizAdjacencia;
-    cout << *this->matrizAdjacencia << endl;
-    cout << matriz << endl;
+    for (int l = 0; l < this->numeroVertices; l++)
+    {
+        for (int c = 0; c < this->numeroVertices; c++)
+        {
+            if (c == this->numeroVertices - 1)
+            {
+                cout << this->matrizAdjacencia[l][c] << endl;
+            }
+            else
+            {
+                cout << this->matrizAdjacencia[l][c] << " " << ends;
+            }
+        }
+    }
+}
 
-    // for (int l = 0; l < this->numeroVertices; l++)
-    // {
-    //     for (int c = 0; c < this->numeroVertices; c++)
-    //     {
-    //         if (c == this->numeroVertices - 1)
-    //         {
-    //             cout << matriz[l][c] << endl;
-    //         }
-    //         else
-    //         {
-    //             cout << matriz[l][c] << " " << ends;
-    //         }
-    //     }
-    // }
+void Grafo::matrizParaListaAdjacencia()
+{
+    Vertice *adjacentes;
+    adjacentes = (Vertice *)malloc(numeroVertices * sizeof(Vertice *));
+
+    for (int i = 0; i < this->numeroVertices; i++)
+    {
+        adjacentes[i] = Vertice(i);
+    }
+
+    for (int l = 0; l < this->numeroVertices; l++)
+    {
+        for (int c = 0; c < this->numeroVertices; c++)
+        {
+            adjacentes[l].adicionarAresta(adjacentes, l, this->matrizAdjacencia[l][c]);
+            cout << adjacentes[l].getVertice() << " -> " << this->matrizAdjacencia[l][c] << " ";
+        }
+        cout << endl;
+    }
+
+    this->listaAdjacencia = adjacentes;
+}
+
+Vertice *Grafo::getListaAdjacencia() { return this->listaAdjacencia; }
+
+void Grafo::imprimeListaAdjacencia(Vertice *listaVerticeAdjacentes)
+{
+    for (int l = 0; l < this->numeroVertices; l++)
+    {
+        for (int c = 0; c < listaVerticeAdjacentes[l].getQtdAdjacentes(); c++)
+        {
+            //cout << c << endl;
+            //cout << l << " -> " << listaVerticeAdjacentes[c].getVertice() << " ";
+        }
+        //cout << endl;
+    }
 }
 
 int Grafo::numeroVeticesConexos()

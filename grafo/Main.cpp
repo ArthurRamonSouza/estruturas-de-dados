@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include "Grafo.cpp"
+#include "Vertice.cpp"
 
 using namespace std;
 
@@ -15,31 +16,40 @@ Grafo arquivoParaGrafo(string nomeArquivo)
     if (arquivo.is_open())
     {
         arquivo >> tamanho_matriz;
+        int **novaMatriz = new int *[tamanho_matriz];
+        for (int i = 0; i < tamanho_matriz; i++)
+        {
+            novaMatriz[i] = new int[tamanho_matriz];
+        }
+
         grafo = new Grafo(tamanho_matriz);
-        int matriz[tamanho_matriz][tamanho_matriz];
+
         for (int l = 0; l < tamanho_matriz; l++)
         {
             for (int c = 0; c < tamanho_matriz; c++)
             {
-                arquivo >> matriz[l][c];
+                arquivo >> novaMatriz[l][c];
             }
         }
-
-        grafo->setMatrizAdjacencia(*matriz);
+        grafo->setMatrizAdjacencia(novaMatriz);
+        arquivo.close();
     }
 
-    arquivo.close();
     return *grafo;
 }
 
 int main()
 {
-    string nomeArquivo = "instancias_grafo/pcv10.txt";
+    string nomeArquivo = "instancias_grafo/pcv4.txt";
 
     Grafo grafo = arquivoParaGrafo(nomeArquivo);
 
     grafo.imprimeMatrizAdjacencia();
-    cout << grafo.getNumeroVertices() << endl;
+    cout << "\n" << grafo.getNumeroVertices() << endl;
+
+    grafo.matrizParaListaAdjacencia();
+    Vertice* listaAdjacencia = grafo.getListaAdjacencia();
+    grafo.imprimeListaAdjacencia(listaAdjacencia);
 
     return 0;
 };

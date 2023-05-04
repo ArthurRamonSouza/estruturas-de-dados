@@ -1,5 +1,5 @@
 # *****************************************************
-# Variables to control Makefile operation
+# Vg++ -g -Wall Main.cpp Grafo.hpp Vertice.hpp -o main
 
 # you can choose gcc or g++
 CC = g++ 
@@ -9,7 +9,7 @@ CC = g++
 #  -Wall  - this flag is used to turn on most compiler warnings
 CFLAGS = -g -Wall
 
-OBJS = Main.o
+OBJS = Main.o Vertice.o Grafo.o
  
 all: main
 
@@ -19,11 +19,8 @@ main: $(OBJS)
 	rm -f $(OBJS)
 	./main
 
-# lista-encadeada.o: ListaEncadeada.cpp ListaEncadeada.hpp
-# 	$(CC) $(CFLAGS) -c listaEncadeada.cpp
- 
-# no.o: No.cpp No.hpp
-# 	$(CC) $(CFLAGS) -c No.cpp
+vertice.o: Vertice.cpp Vertice.hpp
+	$(CC) $(CFLAGS) -c Vertice.cpp
 
-clean:
-	rm -f $(OBJS)
+grafo.o: Grafo.cpp Grafo.hpp
+	$(CC) $(CFLAGS) -c Grafo.cpp
