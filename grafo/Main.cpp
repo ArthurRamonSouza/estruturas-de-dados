@@ -52,11 +52,18 @@ int main()
     }
     cout << endl;
 
-    cout << "Caminho percorrido pelo DFS: "; gr.dfs(3); cout << endl;
+    cout << "Caminho percorrido pelo DFS para achar o 3: "; gr.dfs(3); cout << endl;
     int distancia = gr.bfs(0, 3);
-    cout << "Distancia calculada pelo BFS entre os vertices é: " << distancia << " (valor -1 significa que não há caminhos)" << endl;
+    cout << "Distancia de vertices calculada pelo BFS entre os vertices é: " << distancia << " (valor -1 significa que não há caminhos)" << endl << endl;
+
+    cout << "Caminho percorrido pelo DFS para achar o 9: "; gr.dfs(9); cout << endl;
+    distancia = gr.bfs(7, 9);
+    cout << "Distancia de vertices calculada pelo BFS entre os vertices é: " << distancia << " (valor -1 significa que não há caminhos)" << endl << endl;
+
+    cout << "Caminho percorrido pelo DFS para achar o 1: "; gr.dfs(1); cout << endl;
+    distancia = gr.bfs(0, 5);
+    cout << "Distancia de vertices calculada pelo BFS entre os vertices é: " << distancia << " (valor -1 significa que não há caminhos)" << endl << endl;
+
     cout << "Numero de Componentes Conexas: " << gr.num_componentes_conexas() << endl;
-
-
     return 0;
 }
