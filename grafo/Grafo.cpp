@@ -3,6 +3,7 @@
 Grafo::Grafo(int numeroVertices)
 {
     this->numeroVertices = numeroVertices;
+    this->listaTamanhos = (int *)malloc(numeroVertices * sizeof(int));
     this->matrizAdjacencia = (int **)malloc(numeroVertices * sizeof(int *));
     for (int i = 0; i < numeroVertices; i++)
     {
@@ -40,39 +41,58 @@ void Grafo::imprimeMatrizAdjacencia()
 
 void Grafo::matrizParaListaAdjacencia()
 {
-    Vertice *adjacentes;
-    adjacentes = (Vertice *)malloc(numeroVertices * sizeof(Vertice *));
+    // Criando a lista de adjacencias a partir da lista de tamnhos
+    this->listaAdjacencia = (int **)malloc(numeroVertices * sizeof(int *));
 
-    for (int i = 0; i < this->numeroVertices; i++)
-    {
-        adjacentes[i] = Vertice(i);
-    }
-
+    // Contando numero de elementos na matriz diferentes de 0
     for (int l = 0; l < this->numeroVertices; l++)
     {
+        this->listaTamanhos[l] = 0;
         for (int c = 0; c < this->numeroVertices; c++)
         {
-            adjacentes[l].adicionarAresta(adjacentes, l, this->matrizAdjacencia[l][c]);
-            cout << adjacentes[l].getVertice() << " -> " << this->matrizAdjacencia[l][c] << " ";
+            if (this->matrizAdjacencia[l][c] != 0)
+            {
+                this->listaTamanhos[l]++;
+            }
         }
-        cout << endl;
+        this->listaAdjacencia[l] = (int *)malloc(this->listaTamanhos[l] * sizeof(int));
     }
 
-    this->listaAdjacencia = adjacentes;
+    // Mapeando elementos diferentes de 0 da matriz para a lista
+    for (int l = 0; l < this->numeroVertices; l++)
+    {
+        int contador = 0;
+        for (int c = 0; c < this->numeroVertices; c++)
+        {
+            if (this->matrizAdjacencia[l][c] != 0)
+            {
+                this->listaAdjacencia[l][contador] = this->matrizAdjacencia[l][c];
+                contador++;
+            }
+            
+        }
+    }
 }
 
-Vertice *Grafo::getListaAdjacencia() { return this->listaAdjacencia; }
+int **Grafo::getListaAdjacencia() { return this->listaAdjacencia; }
 
-void Grafo::imprimeListaAdjacencia(Vertice *listaVerticeAdjacentes)
+void Grafo::imprimeListaAdjacencia()
 {
     for (int l = 0; l < this->numeroVertices; l++)
     {
-        for (int c = 0; c < listaVerticeAdjacentes[l].getQtdAdjacentes(); c++)
+        cout << l << " ->";
+        for (int c = 0; c < this->listaTamanhos[l]; c++)
         {
-            //cout << c << endl;
-            //cout << l << " -> " << listaVerticeAdjacentes[c].getVertice() << " ";
+            if (c == this->numeroVertices - 1)
+            {
+                cout << " " << this->listaAdjacencia[l][c];
+            }
+            else
+            {
+                cout << " " << this->listaAdjacencia[l][c] << " ";
+            }
         }
-        //cout << endl;
+        cout << endl;
     }
 }
 

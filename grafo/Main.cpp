@@ -3,7 +3,6 @@
 #include <sstream>
 #include <vector>
 #include "Grafo.cpp"
-#include "Vertice.cpp"
 
 using namespace std;
 
@@ -48,8 +47,8 @@ int main()
     cout << "\n" << grafo.getNumeroVertices() << endl;
 
     grafo.matrizParaListaAdjacencia();
-    Vertice* listaAdjacencia = grafo.getListaAdjacencia();
-    grafo.imprimeListaAdjacencia(listaAdjacencia);
+    //grafo.getListaAdjacencia();
+    grafo.imprimeListaAdjacencia();
 
     return 0;
 };
