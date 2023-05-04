@@ -9,7 +9,7 @@ CC = g++
 #  -Wall  - this flag is used to turn on most compiler warnings
 CFLAGS = -g -Wall
 
-OBJS = Main.o Vertice.o Grafo.o
+OBJS = Main.o Grafo.o
  
 all: main
 
@@ -18,9 +18,6 @@ main: $(OBJS)
 	$(CC) $(CFLAGS) Main.cpp -o main
 	rm -f $(OBJS)
 	./main
-
-vertice.o: Vertice.cpp Vertice.hpp
-	$(CC) $(CFLAGS) -c Vertice.cpp
 
 grafo.o: Grafo.cpp Grafo.hpp
 	$(CC) $(CFLAGS) -c Grafo.cpp
